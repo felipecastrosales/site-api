@@ -15,11 +15,13 @@ const AWS_SES = new AWS.SES(SESConfig);
 const sendMail = async () => {
     const params = {
         Source: process.env.AWS_SES_EMAIL_SENDER,
+        // Source: 'Felipe <process.env.AWS_SES_EMAIL_SENDER>',
         // ReplyToAddresses: [process.env.AWS_SES_EMAIL_SENDER],
         Destination: {
             // ToAddresses: [to],
             ToAddresses: [
                 process.env.AWS_SES_EMAIL_SENDER,
+                // 'Felipe <process.env.AWS_SES_EMAIL_SENDER>',
             ],
         },
         Message: {
