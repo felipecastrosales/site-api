@@ -1,8 +1,9 @@
-const { SESClient, SendEmailCommand } = require("@aws-sdk/client-ses");
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
+import { config as dotenvConfig } from 'dotenv';
 
-require('dotenv').config();
+dotenvConfig();
 
-const SESConfig = {
+const sesConfig = {
     credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -10,34 +11,26 @@ const SESConfig = {
     region: process.env.AWS_REGION,
 };
 
-const sesClient = new SESClient(SESConfig);
+const sesClient = new SESClient(sesConfig);
 
-// const sendMail = async (receiver, subject, body) => {
 const sendMail = async () => {
-    const params = {
+    const emailParams = {
         Source: process.env.AWS_SES_EMAIL_SENDER,
-        // ReplyToAddresses: [process.env.AWS_SES_EMAIL_SENDER],
         Destination: {
-            // ToAddresses: [to],
-            ToAddresses: [
-                process.env.AWS_SES_EMAIL_SENDER,
-            ],
+            ToAddresses: [process.env.AWS_SES_EMAIL_SENDER],
         },
         Message: {
             Subject: {
-                // Data: subject,
                 Charset: 'UTF-8',
                 Data: 'Test email',
             },
             Body: {
                 Html: {
                     Charset: 'UTF-8',
-                    // Data: body,
                     Data: '<h1>Test, test, test</h1>',
                 },
                 Text: {
                     Charset: 'UTF-8',
-                    // Data: body,
                     Data: 'This is the message body in text format, Felipe.',
                 },
             },
@@ -45,11 +38,11 @@ const sendMail = async () => {
     };
 
     try {
-        const sendMailCommand = new SendEmailCommand(params);
+        const sendMailCommand = new SendEmailCommand(emailParams);
         const result = await sesClient.send(sendMailCommand);
-        console.log('Email sent: \n', result);
+        console.log('Email sent:', result);
     } catch (error) {
-        console.error('Error sending email: \n', error);
+        console.error('Error sending email:', error);
     }
 };
 
