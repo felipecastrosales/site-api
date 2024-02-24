@@ -12,33 +12,34 @@ const SESConfig = {
 
 const sesClient = new SESClient(SESConfig);
 
-// const sendMail = async (receiver, subject, body) => {
-const sendMail = async () => {
+const sendMail = async ({
+    senderEmail,
+    senderName,
+    receivers,
+    subject,
+    body,
+}) => {
+    const source = `${senderName} <${senderEmail}>`;
+    const data = new Date();
+
     const params = {
-        Source: process.env.AWS_SES_EMAIL_SENDER,
-        // ReplyToAddresses: [process.env.AWS_SES_EMAIL_SENDER],
+        Source: source,
         Destination: {
-            // ToAddresses: [to],
-            ToAddresses: [
-                process.env.AWS_SES_EMAIL_SENDER,
-            ],
+            ToAddresses: receivers,
         },
         Message: {
             Subject: {
-                // Data: subject,
                 Charset: 'UTF-8',
-                Data: 'Test email',
+                Data: subject,
             },
             Body: {
                 Html: {
                     Charset: 'UTF-8',
-                    // Data: body,
-                    Data: '<h1>Test, test, test</h1>',
+                    Data: `<p>${body}</p> <p>Sent at ${data}</p>`,
                 },
                 Text: {
                     Charset: 'UTF-8',
-                    // Data: body,
-                    Data: 'This is the message body in text format, Felipe.',
+                    Data: body,
                 },
             },
         },
@@ -53,4 +54,12 @@ const sendMail = async () => {
     }
 };
 
-sendMail();
+sendMail({
+    senderName: 'Felipe',
+    senderEmail: process.env.AWS_SES_EMAIL_SENDER,
+    subject: 'More one email',
+    body: 'This is a test email, sent from AWS SES.',
+    receivers: [
+        process.env.AWS_SES_EMAIL_RECEIVER,
+    ],
+});

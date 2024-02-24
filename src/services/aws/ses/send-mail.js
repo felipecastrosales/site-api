@@ -12,6 +12,11 @@ const SESConfig = {
 const AWS_SES = new AWS.SES(SESConfig);
 
 // const sendMail = async (to, subject, body) => {
+// const sendMail = async ({
+//     receiver,
+//     subject,
+//     body,
+// }) => {
 const sendMail = async () => {
     const params = {
         Source: process.env.AWS_SES_EMAIL_SENDER,
@@ -20,7 +25,7 @@ const sendMail = async () => {
         Destination: {
             // ToAddresses: [to],
             ToAddresses: [
-                process.env.AWS_SES_EMAIL_SENDER,
+                process.env.AWS_SES_EMAIL_RECEIVER,
                 // 'Felipe <process.env.AWS_SES_EMAIL_SENDER>',
             ],
         },
@@ -28,18 +33,19 @@ const sendMail = async () => {
             Subject: {
                 // Data: subject,
                 Charset: 'UTF-8',
-                Data: 'Test email',
+                // Data: 'Test email',
+                Data: 'Meeting Invitation: Product Launch Discussion',
             },
             Body: {
                 Html: {
                     Charset: 'UTF-8',
                     // Data: body,
-                    Data: '<h1>Test, test, test</h1>',
+                    Data: '<h1>You are invited to a product launch discussion!</h1><p>Join us on...</p>',
                 },
                 Text: {
                     Charset: 'UTF-8',
                     // Data: body,
-                    Data: 'This is the message body in text format, Felipe.',
+                    Data: 'Meeting Invitation: Product Launch Discussion. Join us on...',
                 },
             },
         },
