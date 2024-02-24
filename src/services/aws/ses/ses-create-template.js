@@ -13,16 +13,19 @@ const SESConfig = {
 const sesClient = new SESClient(SESConfig);
 
 const run = async (templateName) => {
+    const date = new Date();
+
     const createTemplateCommand = new CreateTemplateCommand({
         Template: {
             TemplateName: templateName,
-            SubjectPart: 'Hello hey, {{name}}!',
+            SubjectPart: `{{ subject }}`,
             HtmlPart: `
-                <h1>Hello, {{name}}!</h1>
-                <p>This is the message body in HTML format, {{name}}.</p>
+                <p>{{ body }}</p>
+                <p>Sent at ${date}</p>
             `,
             TextPart: `
-                This is the message body in text format, {{name}}.
+                {{ body }}
+                Sent at ${date}
             `,
         },
     });
@@ -35,4 +38,4 @@ const run = async (templateName) => {
     }
 };
 
-run('test-template');
+run('simple-email');
