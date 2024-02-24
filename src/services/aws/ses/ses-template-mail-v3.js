@@ -14,16 +14,22 @@ const sesClient = new SESClient(SESConfig);
 
 const sendMail = async ({
     templateName,
-    receiver,
-    name,
+    senderEmail,
+    senderName,
+    subject,
+    body,
 }) => {
+    const source = `${senderName} <${senderEmail}>`;
+
     const sendMailCommand = new SendTemplatedEmailCommand({
-        Source: process.env.AWS_SES_EMAIL_SENDER,
-        Destination: {
-            ToAddresses: [receiver],
-        },
         Template: templateName,
-        TemplateData: JSON.stringify({ name }),
+        Source: source,
+        TemplateData: JSON.stringify({ subject, body }),
+        Destination: {
+            ToAddresses: [
+                process.env.AWS_SES_EMAIL_RECEIVER,
+            ],
+        },
     });
 
     try {
@@ -35,7 +41,9 @@ const sendMail = async ({
 }
 
 sendMail({
-    templateName: 'test-template',
-    receiver: process.env.AWS_SES_EMAIL_RECEIVER,
-    name: 'Felipe',
+    templateName: 'simple-email',
+    senderName: 'Felipe',
+    senderEmail: process.env.AWS_SES_EMAIL_SENDER,
+    subject: 'More one email',
+    body: 'This is a simple email',
 });
