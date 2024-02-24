@@ -19,8 +19,8 @@ const sendMail = async ({
     subject,
     body,
 }) => {
+    const date = new Date();
     const source = `${senderName} <${senderEmail}>`;
-    const data = new Date();
 
     const params = {
         Source: source,
@@ -35,7 +35,7 @@ const sendMail = async ({
             Body: {
                 Html: {
                     Charset: 'UTF-8',
-                    Data: `<p>${body}</p> <p>Sent at ${data}</p>`,
+                    Data: `<p>${body}</p> <p>Sent at ${date}</p>`,
                 },
                 Text: {
                     Charset: 'UTF-8',
