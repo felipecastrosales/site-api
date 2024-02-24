@@ -13,7 +13,6 @@ const SESConfig = {
 const sesClient = new SESClient(SESConfig);
 
 const sendMail = async ({
-    templateName,
     senderEmail,
     senderName,
     subject,
@@ -22,7 +21,7 @@ const sendMail = async ({
     const source = `${senderName} <${senderEmail}>`;
 
     const sendMailCommand = new SendTemplatedEmailCommand({
-        Template: templateName,
+        Template: 'simple-email',
         Source: source,
         TemplateData: JSON.stringify({ subject, body }),
         Destination: {
@@ -41,7 +40,6 @@ const sendMail = async ({
 }
 
 sendMail({
-    templateName: 'simple-email',
     senderName: 'Felipe',
     senderEmail: process.env.AWS_SES_EMAIL_SENDER,
     subject: 'More one email',
