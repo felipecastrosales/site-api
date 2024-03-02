@@ -1,6 +1,0 @@
-{
-    "sender_name": "Felipe Sales",
-    "source_email": "soufeliposales@gmail.com",
-    "template_subject": "Hello from Lambda",
-    "template_body": "This is a test email from Lambda function."
-}
