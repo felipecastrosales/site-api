@@ -1,4 +1,4 @@
-const { handleRequestSendTemplateMail } = require('./requests/mail/request-send-template_mail');
+const { handleRequestSendTemplateMail } = require('./mail/request-send-template_mail');
 
 async function handleRequest(req, res) {
     if (req.method === 'POST' && req.url === '/send-template-email') {

@@ -1,5 +1,5 @@
 const http = require('http');
-const { handleRequest } = require('./handle-request');
+const { handleRequest } = require('./requests/handle-request');
 
 const server = http.createServer(handleRequest);
 
