@@ -22,9 +22,20 @@ def send_template_mail(event, context):
             TemplateData='{"subject": "' + template_subject + '", "body": "' + template_body + '"}'
         )
         
+        message = {
+            'message': 'Email sent! Message ID: ' + response['MessageId']
+        }
+
         return {
             'statusCode': 200,
-            'body': "Email sent! Message ID: {}".format(response['MessageId'])
+            'body': message,
+            'isBase64Encoded': False
+            'headers': {
+                "Access-Control-Allow-Origin": "*"
+                "Access-Control-Allow-Credentials": True
+                "Access-Control-Allow-Methods": "POST",
+                "Content-Type": "application/json"
+            }
         }
     except Exception as e:
         return {
