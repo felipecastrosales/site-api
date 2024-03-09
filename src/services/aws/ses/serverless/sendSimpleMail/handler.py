@@ -1,11 +1,14 @@
 import boto3
+import json
 
 def send_template_mail(event, context):
     try:
-        sender_name = event['sender_name']
-        source_email = event['source_email']
-        template_subject = event['template_subject']
-        template_body = event['template_body']
+        body = json.loads(event['body'])
+        sender_name = body['sender_name']
+        source_email = body['source_email']
+        template_subject = body['template_subject']
+        template_body = body['template_body']
+        print('event:', event)
 
         source = f"{sender_name} <{source_email}>"
         
@@ -28,19 +31,26 @@ def send_template_mail(event, context):
 
         return {
             'statusCode': 200,
-            'body': message,
-            'isBase64Encoded': False
+            'body': json.dumps(message),
+            'isBase64Encoded': False,
             'headers': {
-                "Access-Control-Allow-Origin": "*"
-                "Access-Control-Allow-Credentials": True
-                "Access-Control-Allow-Methods": "POST",
-                "Content-Type": "application/json"
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': True,
+                'Access-Control-Allow-Methods': 'POST',
+                'Content-Type': 'application/json'
             }
         }
     except Exception as e:
         return {
             'statusCode': 500,
-            'body': 'Error: {}'.format(e)
+            'body': json.dumps(str(e)),
+            'isBase64Encoded': False,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': True,
+                'Access-Control-Allow-Methods': 'POST',
+                'Content-Type': 'application/json'
+            }
         }
 
 # How to test: 
