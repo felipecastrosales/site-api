@@ -8,10 +8,9 @@ def send_template_mail(event, context):
         source_email = body['source_email']
         template_subject = body['template_subject']
         template_body = body['template_body']
-        print('event:', event)
 
         source = f"{sender_name} <{source_email}>"
-        
+
         ses_client = boto3.client('ses', region_name='us-east-1')
 
         response = ses_client.send_templated_email(
