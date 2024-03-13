@@ -1,9 +1,11 @@
 import boto3
 import json
+import base64
 
 def send_template_mail(event, context):
     try:
-        body = json.loads(event['body'])
+        payloadDecoded = base64.b64decode(event['body'])
+        body = json.loads(payloadDecoded)
         sender_name = body['sender_name']
         source_email = body['source_email']
         template_subject = body['template_subject']
@@ -23,7 +25,7 @@ def send_template_mail(event, context):
             Template='simple-email',
             TemplateData='{"subject": "' + template_subject + '", "body": "' + template_body + '"}'
         )
-        
+
         message = {
             'message': 'Email sent! Message ID: ' + response['MessageId']
         }
@@ -31,25 +33,16 @@ def send_template_mail(event, context):
         return {
             'statusCode': 200,
             'body': json.dumps(message),
-            'isBase64Encoded': False,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True,
-                'Access-Control-Allow-Methods': 'POST',
-                'Content-Type': 'application/json'
-            }
+            'isBase64Encoded': False
         }
     except Exception as e:
+        message = {
+            'message': 'Error sending email: ' + str(e)
+        }
         return {
             'statusCode': 500,
-            'body': json.dumps(str(e)),
-            'isBase64Encoded': False,
-            'headers': {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': True,
-                'Access-Control-Allow-Methods': 'POST',
-                'Content-Type': 'application/json'
-            }
+            'body': json.dumps(message),
+            'isBase64Encoded': False
         }
 
 # How to test: 
