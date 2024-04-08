@@ -10,20 +10,25 @@ def send_template_mail(event, context):
         source_email = body['source_email']
         template_subject = body['template_subject']
         template_body = body['template_body']
-
-        source = f"{sender_name} <{source_email}>"
+        personalSource = "Felipe Sales <noreply@felipecastrosales.awsapps.com>"
+        emailTemplateData = {
+            "subject": template_subject,
+            "body": template_body,
+            "username": sender_name,
+            "userEmail": source_email
+        }
 
         ses_client = boto3.client('ses', region_name='us-east-1')
 
         response = ses_client.send_templated_email(
-            Source = source,
+            Source = personalSource,
             Destination = {
                 'ToAddresses': [
                     'soufeliposales@gmail.com'
                 ]
             },
-            Template='simple-email',
-            TemplateData='{"subject": "' + template_subject + '", "body": "' + template_body + '"}'
+            Template='site-simple-mail',
+            TemplateData=json.dumps(emailTemplateData)
         )
 
         message = {
@@ -39,6 +44,7 @@ def send_template_mail(event, context):
         message = {
             'message': 'Error sending email: ' + str(e)
         }
+        print(message)
         return {
             'statusCode': 500,
             'body': json.dumps(message),
