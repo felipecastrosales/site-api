@@ -19,11 +19,18 @@ const sendMail = async ({
     body,
 }) => {
     const source = `${senderName} <${senderEmail}>`;
+    const username = `${senderName}`;
+    const userEmail = `${senderEmail}`;
 
     const sendMailCommand = new SendTemplatedEmailCommand({
-        Template: 'simple-email',
+        Template: 'site-simple-mail',
         Source: source,
-        TemplateData: JSON.stringify({ subject, body }),
+        TemplateData: JSON.stringify({ 
+            subject,
+            body,
+            username,
+            userEmail,
+        }),
         Destination: {
             ToAddresses: [
                 process.env.AWS_SES_EMAIL_RECEIVER,

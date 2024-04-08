@@ -20,15 +20,34 @@ const run = async (templateName) => {
             TemplateName: templateName,
             SubjectPart: `{{ subject }}`,
             HtmlPart: `
+                <p>User name: {{ username }} | User email: {{ userEmail }}</p>
                 <p>{{ body }}</p>
-                <p>Sent at ${date}</p>
+                <p>Sent at ${date}</p>  
             `,
             TextPart: `
+                User name: {{ username }} | User email: {{ userEmail }}
                 {{ body }}
                 Sent at ${date}
             `,
         },
     });
+
+    // const updateTemplateCommand = new UpdateTemplateCommand({
+    //     Template: {
+    //         TemplateName: templateName,
+    //         SubjectPart: `{{ subject }}`,
+    //         HtmlPart: `
+    //             <p>User name: {{ username }} | User email: {{ userEmail }}</p>
+    //             <p>{{ body }}</p>
+    //             <p>Sent at ${date}</p>  
+    //         `,
+    //         TextPart: `
+    //             User name: {{ username }} | User email: {{ userEmail }}
+    //             {{ body }}
+    //             Sent at ${date}
+    //         `,
+    //     },
+    // });
 
     try {
         const result = await sesClient.send(createTemplateCommand);
@@ -38,4 +57,4 @@ const run = async (templateName) => {
     }
 };
 
-run('simple-email');
+run('site-simple-mail');
