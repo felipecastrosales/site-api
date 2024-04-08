@@ -11,16 +11,19 @@ def send_template_mail(event, context):
         template_subject = body['template_subject']
         template_body = body['template_body']
         personalSource = "Felipe Sales <noreply@felipecastrosales.awsapps.com>"
-        emailTemplateData = {
+        personalEmailTemplateData = {
             "subject": template_subject,
             "body": template_body,
             "username": sender_name,
             "userEmail": source_email
         }
+        userEmailTemplateData = {
+            "username": sender_name,
+        }
 
         ses_client = boto3.client('ses', region_name='us-east-1')
 
-        response = ses_client.send_templated_email(
+        personalResponse = ses_client.send_templated_email(
             Source = personalSource,
             Destination = {
                 'ToAddresses': [
@@ -28,11 +31,22 @@ def send_template_mail(event, context):
                 ]
             },
             Template='site-simple-mail',
-            TemplateData=json.dumps(emailTemplateData)
+            TemplateData=json.dumps(personalEmailTemplateData)
+        )
+
+        userResponse = ses_client.send_templated_email(
+            Source = personalSource,
+            Destination = {
+                'ToAddresses': [
+                    source_email
+                ]
+            },
+            Template='request-site-simple-mail',
+            TemplateData=json.dumps(userEmailTemplateData)
         )
 
         message = {
-            'message': 'Email sent! Message ID: ' + response['MessageId']
+            'message': 'Emails sent! Message IDs | personal: ' + personalResponse['MessageId'] + ' | user: ' + userResponse['MessageId']
         }
 
         return {
