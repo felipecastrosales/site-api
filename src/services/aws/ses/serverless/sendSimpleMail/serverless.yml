@@ -45,3 +45,10 @@ functions:
                 source_email: true
                 template_subject: true
                 template_body: true
+          httpApiEvent:
+            method: POST
+            path: /mail/send-template
+            throttling:
+              burstLimit: 5
+              rateLimit: 2
+            authorizer: aws.iam

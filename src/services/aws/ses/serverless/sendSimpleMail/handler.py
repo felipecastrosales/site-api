@@ -1,9 +1,27 @@
 import boto3
 import json
 import base64
+import os
+
+blocked_ips_env = os.environ.get('BLOCKED_IPS', '')
+blocked_ips = blocked_ips_env.split(',')
+
+def is_ip_blocked(ip_address):
+    return ip_address in blocked_ips
 
 def send_template_mail(event, context):
     try:
+        ip_address = event['headers']['x-forwarded-for']
+        if is_ip_blocked(ip_address):
+            message = {
+                'message': 'Unauthorized error (403): Your IP address is blocked.'
+            }
+            return {
+                'statusCode': 403,
+                'body': json.dumps(message),
+                'isBase64Encoded': False
+            }
+
         payloadDecoded = base64.b64decode(event['body'])
         body = json.loads(payloadDecoded)
         sender_name = body['sender_name']
