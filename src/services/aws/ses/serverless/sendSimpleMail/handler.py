@@ -11,7 +11,8 @@ def is_ip_blocked(ip_address):
 
 def send_template_mail(event, context):
     try:
-        ip_address = event['headers']['x-forwarded-for']
+        ip_address = event['requestContext']['http']['sourceIp']
+        print('IP Address: ' + ip_address)
         if is_ip_blocked(ip_address):
             message = {
                 'message': 'Unauthorized error (403): Your IP address is blocked.'
