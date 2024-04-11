@@ -21,12 +21,14 @@ provider:
 
 functions:
   send_template_mail:
-    handler: handler.send_template_mail
+    handler: handler.dispatch
     events: 
       - httpApi:
           path: /mail/send-template
           method: POST
           cors:
+            allowedOrigins:
+              - 'https://felipecastrosales.com'
             allowedMethods: ['POST']
             allowedHeaders:
               - Content-Type
@@ -49,6 +51,13 @@ functions:
             method: POST
             path: /mail/send-template
             throttling:
-              burstLimit: 5
+              # Monthly limit = 100 requests
+              # Number of seconds in a month:
+              #   = 30 days * 24 hours * 60 minutes * 60 seconds = 2,592,000 seconds
+              # Rate limit per second 
+              # = Monthly limit / Number of seconds in a month
+              # = 100 / 2,592,000
+              # ≈ 0.0000385 requests per second
+              burstLimit: 0.0000385
               rateLimit: 2
             authorizer: aws.iam

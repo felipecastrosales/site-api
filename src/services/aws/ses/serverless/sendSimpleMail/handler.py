@@ -2,17 +2,44 @@ import boto3
 import json
 import base64
 import os
+import time
 
 blocked_ips_env = os.environ.get('BLOCKED_IPS', '')
 blocked_ips = blocked_ips_env.split(',')
 
+REQUESTS_PER_DAY = int(os.environ.get('REQUESTS_PER_DAY', '32'))
+requests_per_day = {}
+
 def is_ip_blocked(ip_address):
+    print(f'[Log] User IP: {ip_address}')
+    print(f'[Log] Blocked IPs: {blocked_ips}')
+    print(f'[Log] Blocked IPs env: {blocked_ips_env}')
     return ip_address in blocked_ips
 
-def send_template_mail(event, context):
+def is_rate_limited():
+    today = time.strftime("%Y-%m-%d")
+    requests_today = requests_per_day.get(today, 0)
+    print(f'[Log] Requests today: {requests_today} | Requests per day: {REQUESTS_PER_DAY}')
+
+    if requests_today >= REQUESTS_PER_DAY:
+        return True
+
+    requests_per_day[today] = requests_today + 1
+    return False
+
+def dispatch(event, context):
     try:
+        if is_rate_limited():
+            message = {
+                'message': 'Too Many Requests error (429): Rate limit exceeded.'
+            }
+            return {
+                'statusCode': 429,
+                'body': json.dumps(message),
+                'isBase64Encoded': False
+            }
+
         ip_address = event['requestContext']['http']['sourceIp']
-        print('IP Address: ' + ip_address)
         if is_ip_blocked(ip_address):
             message = {
                 'message': 'Unauthorized error (403): Your IP address is blocked.'
@@ -23,6 +50,20 @@ def send_template_mail(event, context):
                 'isBase64Encoded': False
             }
 
+        return send_template_mail(event, context)
+
+    except Exception as e:
+        message = {
+            'message': 'Error dispatching request: ' + str(e)
+        }
+        return {
+            'statusCode': 500,
+            'body': json.dumps(message),
+            'isBase64Encoded': False
+        }
+
+def send_template_mail(event, context):
+    try:
         payloadDecoded = base64.b64decode(event['body'])
         body = json.loads(payloadDecoded)
         sender_name = body['sender_name']
