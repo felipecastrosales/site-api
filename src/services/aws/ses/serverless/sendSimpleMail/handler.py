@@ -13,7 +13,6 @@ requests_per_day = {}
 def is_ip_blocked(ip_address):
     print(f'[Log] User IP: {ip_address}')
     print(f'[Log] Blocked IPs: {blocked_ips}')
-    print(f'[Log] Blocked IPs env: {blocked_ips_env}')
     return ip_address in blocked_ips
 
 def is_rate_limited():
@@ -29,6 +28,8 @@ def is_rate_limited():
 
 def dispatch(event, context):
     try:
+        print(f'[Log] Event: {event}')
+
         if is_rate_limited():
             message = {
                 'message': 'Too Many Requests error (429): Rate limit exceeded.'
@@ -64,8 +65,7 @@ def dispatch(event, context):
 
 def send_template_mail(event, context):
     try:
-        payloadDecoded = base64.b64decode(event['body'])
-        body = json.loads(payloadDecoded)
+        body = json.loads(event['body'])
         sender_name = body['sender_name']
         source_email = body['source_email']
         template_subject = body['template_subject']
@@ -132,7 +132,7 @@ def send_template_mail(event, context):
 # --payload "" \
 # Output.txt
 
-# -> Generate `base64` payload with the following content:
+# -> Generate payload with the following content:
 # {
 #     "sender_name": "John Doe",
 #     "source_email": "johndoe@johndoe.com",

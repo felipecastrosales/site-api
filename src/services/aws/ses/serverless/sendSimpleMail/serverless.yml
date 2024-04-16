@@ -27,14 +27,14 @@ functions:
           path: /mail/send-template
           method: POST
           cors:
-            allowedOrigins:
+            allowOrigins:
               - 'https://felipecastrosales.com'
-            allowedMethods: ['POST']
-            allowedHeaders:
+            allowMethods:
+              - ['POST']
+            allowHeaders:
               - Content-Type
               - Authorization
               - X-Amz-Date
-              - Authorization
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
@@ -51,13 +51,13 @@ functions:
             method: POST
             path: /mail/send-template
             throttling:
-              # Monthly limit = 100 requests
+              # Monthly limit = 300 requests
               # Number of seconds in a month:
               #   = 30 days * 24 hours * 60 minutes * 60 seconds = 2,592,000 seconds
               # Rate limit per second 
               # = Monthly limit / Number of seconds in a month
-              # = 100 / 2,592,000
-              # ≈ 0.0000385 requests per second
-              burstLimit: 0.0000385
+              # = 300 / 2,592,000
+              # ≈ 0.0001157
+              burstLimit: 0.0001157
               rateLimit: 2
             authorizer: aws.iam
