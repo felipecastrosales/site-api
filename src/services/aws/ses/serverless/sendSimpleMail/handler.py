@@ -70,15 +70,18 @@ def send_template_mail(event, context):
         source_email = body['source_email']
         template_subject = body['template_subject']
         template_body = body['template_body']
+        date = event['requestContext']['time']
         personalSource = "Felipe Sales <noreply@felipecastrosales.awsapps.com>"
         personalEmailTemplateData = {
             "subject": template_subject,
             "body": template_body,
             "username": sender_name,
-            "userEmail": source_email
+            "userEmail": source_email,
+            "date": date
         }
         userEmailTemplateData = {
             "username": sender_name,
+            "date": date
         }
 
         ses_client = boto3.client('ses', region_name='us-east-1')

@@ -34,22 +34,45 @@ const run = async (templateName) => {
     //     },
     // });
 
+    // request-site-simple-mail
     const updateTemplateCommand = new UpdateTemplateCommand({
         Template: {
             TemplateName: templateName,
-            SubjectPart: `{{ subject }}`,
+            SubjectPart: `Soliciatação enviada com sucesso`,
             HtmlPart: `
-                <p>User name: {{ username }} | User email: {{ userEmail }}</p>
-                <p>{{ body }}</p>
-                <p>Sent at ${new Date()}</p>
+                <p>Olá {{ username }}, tudo bem?</p>
+                <p>Recebi sua solicitação e em breve retornarei com uma resposta.</p>
+                <p>Atenciosamente,</p>
+                <p>Felipe Sales</p>
+                <p>Sent at {{ date }}</p>
             `,
             TextPart: `
-                User name: {{ username }} | User email: {{ userEmail }}
-                {{ body }}
-                Sent at ${new Date()}
+                Olá {{ username }}, tudo bem?
+                Recebi sua solicitação com sucesso e em breve retornarei com uma resposta.
+                Atenciosamente,
+                Felipe Sales
+                Sent at {{ date }}
             `,
         },
     });
+
+    // site-simple-mail
+    // const updateTemplateCommand = new UpdateTemplateCommand({
+    //     Template: {
+    //         TemplateName: templateName,
+    //         SubjectPart: `Soliciatação enviada com sucesso`,
+    //         HtmlPart: `
+    //             <p>User name: {{ username }} | User email: {{ userEmail }}</p>
+    //             <p>{{ body }}</p>
+    //             <p>Sent at {{ date }}</p>
+    //         `,
+    //         TextPart: `
+    //             User name: {{ username }} | User email: {{ userEmail }}
+    //             {{ body }}
+    //             Sent at {{ date }}
+    //         `,
+    //     },
+    // });
 
     try {
         // const result = await sesClient.send(createTemplateCommand);
@@ -60,5 +83,5 @@ const run = async (templateName) => {
     }
 };
 
-// run('request-site-simple-mail');
-run('site-simple-mail');
+run('request-site-simple-mail');
+// run('site-simple-mail');
