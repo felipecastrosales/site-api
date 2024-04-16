@@ -1,4 +1,4 @@
-const { SESClient, CreateTemplateCommand } = require("@aws-sdk/client-ses");
+const { SESClient, CreateTemplateCommand, UpdateTemplateCommand } = require('@aws-sdk/client-ses');
 
 require('dotenv').config();
 
@@ -13,8 +13,6 @@ const SESConfig = {
 const sesClient = new SESClient(SESConfig);
 
 const run = async (templateName) => {
-    const date = new Date();
-
     // const createTemplateCommand = new CreateTemplateCommand({
     //     Template: {
     //         TemplateName: templateName,
@@ -43,18 +41,19 @@ const run = async (templateName) => {
             HtmlPart: `
                 <p>User name: {{ username }} | User email: {{ userEmail }}</p>
                 <p>{{ body }}</p>
-                <p>Sent at ${date}</p>  
+                <p>Sent at ${new Date()}</p>
             `,
             TextPart: `
                 User name: {{ username }} | User email: {{ userEmail }}
                 {{ body }}
-                Sent at ${date}
+                Sent at ${new Date()}
             `,
         },
     });
 
     try {
-        const result = await sesClient.send(createTemplateCommand);
+        // const result = await sesClient.send(createTemplateCommand);
+        const result = await sesClient.send(updateTemplateCommand);
         console.log('Template created: \n', result);
     } catch (error) {
         console.error('Error creating template: \n', error);
