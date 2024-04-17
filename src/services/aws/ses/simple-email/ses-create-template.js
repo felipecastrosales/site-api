@@ -38,7 +38,7 @@ const run = async (templateName) => {
     const updateTemplateCommand = new UpdateTemplateCommand({
         Template: {
             TemplateName: templateName,
-            SubjectPart: `Soliciatação enviada com sucesso`,
+            SubjectPart: `Solicitação enviada com sucesso`,
             HtmlPart: `
                 <p>Olá {{ username }}, tudo bem?</p>
                 <p>Recebi sua solicitação e em breve retornarei com uma resposta.</p>
