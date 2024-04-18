@@ -10,6 +10,12 @@ blocked_ips = blocked_ips_env.split(',')
 REQUESTS_PER_DAY = int(os.environ.get('REQUESTS_PER_DAY', '32'))
 requests_per_day = {}
 
+headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,PATCH,POST,DELETE',
+    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+}
+
 def is_ip_blocked(ip_address):
     print(f'[Log] User IP: {ip_address}')
     print(f'[Log] Blocked IPs: {blocked_ips}')
@@ -30,6 +36,15 @@ def dispatch(event, context):
     try:
         print(f'[Log] Event: {event}')
 
+        if 'httpMethod' in event:
+            if event['httpMethod'] == 'OPTIONS':
+                return {
+                    'statusCode': 200,
+                    'body': json.dumps({}),
+                    'isBase64Encoded': False,
+                    'headers': headers
+                }
+
         if is_rate_limited():
             message = {
                 'message': 'Too Many Requests error (429): Rate limit exceeded.'
@@ -37,7 +52,8 @@ def dispatch(event, context):
             return {
                 'statusCode': 429,
                 'body': json.dumps(message),
-                'isBase64Encoded': False
+                'isBase64Encoded': False,
+                'headers': headers
             }
 
         ip_address = event['requestContext']['http']['sourceIp']
@@ -48,7 +64,8 @@ def dispatch(event, context):
             return {
                 'statusCode': 403,
                 'body': json.dumps(message),
-                'isBase64Encoded': False
+                'isBase64Encoded': False,
+                'headers': headers
             }
 
         return send_template_mail(event, context)
@@ -60,7 +77,8 @@ def dispatch(event, context):
         return {
             'statusCode': 500,
             'body': json.dumps(message),
-            'isBase64Encoded': False
+            'isBase64Encoded': False,
+            'headers': headers
         }
 
 def send_template_mail(event, context):
@@ -115,7 +133,8 @@ def send_template_mail(event, context):
         return {
             'statusCode': 200,
             'body': json.dumps(message),
-            'isBase64Encoded': False
+            'isBase64Encoded': False,
+            'headers': headers
         }
     except Exception as e:
         message = {
@@ -125,7 +144,8 @@ def send_template_mail(event, context):
         return {
             'statusCode': 500,
             'body': json.dumps(message),
-            'isBase64Encoded': False
+            'isBase64Encoded': False,
+            'headers': headers
         }
 
 # How to test: 
