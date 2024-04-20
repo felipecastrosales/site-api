@@ -16,7 +16,7 @@ const run = async (templateName) => {
     // const createTemplateCommand = new CreateTemplateCommand({
     //     Template: {
     //         TemplateName: templateName,
-    //         SubjectPart: `Soliciatação enviada com sucesso`,
+    //         SubjectPart: `Solicitação enviada com sucesso`,
     //         HtmlPart: `
     //             Olá, {{ username }}! <br>
     //             <p>Recebi sua solicitação com sucesso e em breve retornarei com uma resposta.</p>
@@ -37,7 +37,7 @@ const run = async (templateName) => {
     // request-site-simple-mail
     const updateTemplateCommand = new UpdateTemplateCommand({
         Template: {
-            TemplateName: templateName,
+            TemplateName: `request-site-simple-mail`,
             SubjectPart: `Solicitação enviada com sucesso`,
             HtmlPart: `
                 <p>Olá {{ username }}, tudo bem?</p>
@@ -59,8 +59,8 @@ const run = async (templateName) => {
     // site-simple-mail
     // const updateTemplateCommand = new UpdateTemplateCommand({
     //     Template: {
-    //         TemplateName: templateName,
-    //         SubjectPart: `Soliciatação enviada com sucesso`,
+    //         TemplateName: `site-simple-mail`,
+    //         SubjectPart: `{{ subject }}`,
     //         HtmlPart: `
     //             <p>User name: {{ username }} | User email: {{ userEmail }}</p>
     //             <p>{{ body }}</p>
@@ -83,5 +83,4 @@ const run = async (templateName) => {
     }
 };
 
-run('request-site-simple-mail');
-// run('site-simple-mail');
+run();
