@@ -30,7 +30,45 @@ functions:
             allowOrigins:
               - 'https://felipecastrosales.com'
             allowMethods:
-              - ['POST']
+              - ['POST', 'OPTIONS']
+            allowHeaders:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: true
+            maxAge: 3600
+          request:
+            parameters:
+              paths:
+                sender_name: true
+                source_email: true
+                template_subject: true
+                template_body: true
+          httpApiEvent:
+            method: POST
+            path: /mail/send-template
+            throttling:
+              # Monthly limit = 300 requests
+              # Number of seconds in a month:
+              #   = 30 days * 24 hours * 60 minutes * 60 seconds = 2,592,000 seconds
+              # Rate limit per second 
+              # = Monthly limit / Number of seconds in a month
+              # = 300 / 2,592,000
+              # ≈ 0.0001157
+              burstLimit: 0.0001157
+              rateLimit: 2
+            authorizer: aws.iam
+      - httpApi:
+          path: /mail/send-template
+          method: OPTIONS
+          cors:
+            allowOrigins:
+              - 'https://felipecastrosales.com'
+            allowMethods:
+              - ['POST', 'OPTIONS']
             allowHeaders:
               - Content-Type
               - Authorization

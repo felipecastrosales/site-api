@@ -12,8 +12,9 @@ requests_per_day = {}
 
 headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,PUT,PATCH,POST,DELETE',
-    'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+    'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    'Access-Control-Allow-Credentials': True,
+    'Content-Type': 'application/json'
 }
 
 def is_ip_blocked(ip_address):
@@ -36,8 +37,8 @@ def dispatch(event, context):
     try:
         print(f'[Log] Event: {event}')
 
-        if 'httpMethod' in event:
-            if event['httpMethod'] == 'OPTIONS':
+        if 'requestContext' in event:
+            if event['requestContext']['http']['method'] == 'OPTIONS':
                 return {
                     'statusCode': 200,
                     'body': json.dumps({}),
