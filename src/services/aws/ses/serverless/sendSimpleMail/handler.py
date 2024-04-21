@@ -39,9 +39,12 @@ def dispatch(event, context):
 
         if 'requestContext' in event:
             if event['requestContext']['http']['method'] == 'OPTIONS':
+                message = {
+                    'message': 'CORS preflight request successful.'
+                }
                 return {
                     'statusCode': 200,
-                    'body': json.dumps({}),
+                    'body': json.dumps(message),
                     'isBase64Encoded': False,
                     'headers': headers
                 }
