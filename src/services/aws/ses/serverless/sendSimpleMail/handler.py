@@ -11,9 +11,10 @@ REQUESTS_PER_DAY = int(os.environ.get('REQUESTS_PER_DAY', '32'))
 requests_per_day = {}
 
 headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers':'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
+    'Access-Control-Allow-Origin': 'https://felipecastrosales.com',
+    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
     'Access-Control-Allow-Credentials': True,
+    'Access-Control-Allow-Methods': 'POST,OPTIONS',
     'Content-Type': 'application/json'
 }
 
