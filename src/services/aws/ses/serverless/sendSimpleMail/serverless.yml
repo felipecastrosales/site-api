@@ -59,7 +59,7 @@ functions:
               Access-Control-Allow-Origin: 'https://felipecastrosales.com'
               Access-Control-Allow-Headers: 'Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token, X-Amz-User-Agent'
               Access-Control-Allow-Credentials: true
-              Access-Control-Allow-Methods: 'POST, OPTIONS'
+              Access-Control-Allow-Methods: 'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'
           request:
             parameters:
               paths:
@@ -117,7 +117,7 @@ functions:
               Access-Control-Allow-Origin: 'https://felipecastrosales.com'
               Access-Control-Allow-Headers: 'Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token, X-Amz-User-Agent'
               Access-Control-Allow-Credentials: true
-              Access-Control-Allow-Methods: 'POST, OPTIONS'
+              Access-Control-Allow-Methods: 'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'
           request:
             parameters:
               paths:
