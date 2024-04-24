@@ -39,7 +39,8 @@ functions:
             allowOrigins:
               - 'https://felipecastrosales.com'
             allowMethods:
-              - ['POST', 'OPTIONS']
+              - POST
+              - OPTIONS
             allowHeaders:
               - Content-Type
               - Authorization
@@ -47,13 +48,18 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Credentials
+              - Access-Control-Allow-Methods
             allowCredentials: true
             maxAge: 1
           response:
             headers:
-              Access-Control-Allow-Origin: '*'
+              Access-Control-Allow-Origin: 'https://felipecastrosales.com'
               Access-Control-Allow-Headers: 'Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token, X-Amz-User-Agent'
               Access-Control-Allow-Credentials: true
+              Access-Control-Allow-Methods: 'POST, OPTIONS'
           request:
             parameters:
               paths:
@@ -88,10 +94,15 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Credentials
+              - Access-Control-Allow-Methods
             allowOrigins:
               - 'https://felipecastrosales.com'
             allowMethods:
-              - ['POST', 'OPTIONS']
+              - POST
+              - OPTIONS
             allowHeaders:
               - Content-Type
               - Authorization
@@ -103,9 +114,10 @@ functions:
             maxAge: 1
           response:
             headers:
-              Access-Control-Allow-Origin: '*'
+              Access-Control-Allow-Origin: 'https://felipecastrosales.com'
               Access-Control-Allow-Headers: 'Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token, X-Amz-User-Agent'
               Access-Control-Allow-Credentials: true
+              Access-Control-Allow-Methods: 'POST, OPTIONS'
           request:
             parameters:
               paths:
