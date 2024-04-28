@@ -14,7 +14,7 @@ headers = {
     'Access-Control-Allow-Origin': 'https://felipecastrosales.com',
     'Access-Control-Allow-Headers': 'Content-Type,X-Requested-With,withCredentials',
     'Access-Control-Allow-Credentials': True,
-    'Access-Control-Allow-Methods': 'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT',
+    'Access-Control-Allow-Methods': 'OPTIONS,POST',
     'Content-Type': 'application/json'
 }
 
