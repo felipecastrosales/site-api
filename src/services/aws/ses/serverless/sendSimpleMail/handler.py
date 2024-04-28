@@ -12,7 +12,7 @@ requests_per_day = {}
 
 headers = {
     'Access-Control-Allow-Origin': 'https://felipecastrosales.com',
-    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amz-Source-Arn,Access-Control-Allow-Origin,Access-Control-Allow-Headers,Access-Control-Allow-Credentials,Access-Control-Allow-Methods,X-Requested-With,withCredentials',
+    'Access-Control-Allow-Headers': 'Content-Type,X-Requested-With,withCredentials',
     'Access-Control-Allow-Credentials': True,
     'Access-Control-Allow-Methods': 'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT',
     'Content-Type': 'application/json'
