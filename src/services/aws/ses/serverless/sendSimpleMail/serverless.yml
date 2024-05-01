@@ -29,3 +29,23 @@ functions:
       - httpApi:
           path: /mail/send-template
           method: OPTIONS
+
+plugins:
+  - serverless-api-gateway-throttling
+
+custom:
+  # Configures throttling settings for the API Gateway stage
+  # They apply to all http endpoints, unless specifically overridden
+  apiGatewayThrottling:
+    maxRequestsPerSecond: 0.0001157
+    maxConcurrentRequests: 2
+
+# Monthly limit = 300 requests
+# Number of seconds in a month:
+#   = 30 days * 24 hours * 60 minutes * 60 seconds = 2,592,000 seconds
+# Rate limit per second 
+# = Monthly limit / Number of seconds in a month
+# = 300 / 2,592,000
+# ≈ 0.0001157
+
+# Max concurrent requests = 2 (because send two emails at a time)

@@ -16,7 +16,8 @@
     "express": "^4.18.3"
   },
   "devDependencies": {
-    "serverless": "^3.38.0"
+    "serverless": "^3.38.0",
+    "serverless-api-gateway-throttling": "^2.0.3"
   },
   "repository": {
     "type": "git",
