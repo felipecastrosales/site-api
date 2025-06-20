@@ -11,8 +11,10 @@ REQUESTS_PER_DAY = int(os.environ.get('REQUESTS_PER_DAY', '32'))
 requests_per_day = {}
 
 headers = {
-    'Access-Control-Allow-Origin': 'https://felipecastrosales.com',
-    'Access-Control-Allow-Headers': 'Content-Type,X-Requested-With,withCredentials',
+    'Access-Control-Allow-Origin': '*',
+    # 'Access-Control-Allow-Origin': 'https://felipecastrosales.com',
+    # 'Access-Control-Allow-Headers': 'Content-Type,X-Requested-With,withCredentials',
+    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amz-Source-Arn,Access-Control-Allow-Origin,Access-Control-Allow-Headers,Access-Control-Allow-Credentials,Access-Control-Allow-Methods,X-Requested-With,withCredentials',
     'Access-Control-Allow-Credentials': True,
     'Access-Control-Allow-Methods': 'OPTIONS,POST',
     'Content-Type': 'application/json'
@@ -64,10 +66,10 @@ def dispatch(event, context):
         ip_address = event['requestContext']['http']['sourceIp']
         if is_ip_blocked(ip_address):
             message = {
-                'message': 'Unauthorized error (403): Your IP address is blocked.'
+                'message': 'Unauthorized error (401): IP address is blocked.'
             }
             return {
-                'statusCode': 403,
+                'statusCode': 401,
                 'body': json.dumps(message),
                 'isBase64Encoded': False,
                 'headers': headers
